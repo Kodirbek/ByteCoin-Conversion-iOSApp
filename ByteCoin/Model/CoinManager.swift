@@ -13,10 +13,23 @@ protocol CoinManagerDelegate {
     func didFailWithError(error: Error)
 }
 
+func getAPI() -> String {
+  var key: NSDictionary?
+  var coinApi = ""
+  if let path = Bundle.main.path(forResource: "Keys", ofType: "plist") {
+        key = NSDictionary(contentsOf: URL(fileURLWithPath: path))
+    }
+    
+  if let dict = key {
+    coinApi = dict["CoinApi"] as? String ?? ""
+    }
+  return coinApi
+}
+
 struct CoinManager {
     
     let baseURL = "https://rest.coinapi.io/v1/exchangerate/BTC"
-    let apiKey = "8F145CF0-E349-426A-A34B-38A6BE37CC6E"
+    let apiKey = getAPI()
     
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","KRW","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
     
